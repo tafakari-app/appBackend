@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-qhy6y5xi@2y@)hlie4hw**1lvqn45q^+*+26df9ks0tc3yq*$j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.129','.vercel.app', '.now.sh']
+ALLOWED_HOSTS = ['192.168.1.129',]
 
 
 # Application definition
@@ -49,6 +49,7 @@ AUTH_USER_MODEL = 'users.MyUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -128,9 +129,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+STATIC_URL = "static/"
+MEDIA_URL = "media/"
+STATICFILES_DIRS = [BASE_DIR / "static" ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_ROOT = BASE_DIR / "media"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
