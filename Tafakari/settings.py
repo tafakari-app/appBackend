@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'spaces.apps.SpacesConfig',
     'journal.apps.JournalConfig',
+    'feelings.apps.FeelingsConfig',
 ]
 
 
