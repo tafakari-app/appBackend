@@ -20,6 +20,7 @@ class Journal(models.Model):
     class Meta:
         verbose_name = "Journal"
         verbose_name_plural = "Journals"
+        ordering = ("-created_at", )
 
     def __str__(self):
         return self.title

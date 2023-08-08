@@ -6,6 +6,8 @@ from rest_framework.generics import GenericAPIView
 from .models import (
     Post
 )
+from rest_framework.pagination import PageNumberPagination
+
 from rest_framework import permissions
 import json
 from rest_framework import status
@@ -15,27 +17,38 @@ from .serializers import (
 from django_filters import rest_framework as filters
 from .filters import PostFilter
 from .Predictions import predictEmtions
+from rest_framework import generics
 
-class Feeds(GenericAPIView):
+
+
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size = 10  # Adjust the page size as needed
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
+class Feeds(generics.ListAPIView):
     parser_classes = (MultiPartParser,)
     serializer_class = PostSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PostFilter
     permission_classes = (permissions.IsAuthenticated,)
+    pagination_class = CustomPageNumberPagination  # Use your custom pagination class if needed
 
     def get_queryset(self):
         return Post.objects.all()
 
     def get(self, request):
         try:
-            queryset = self.filter_queryset(
-                Post.objects.all())
+            queryset = self.filter_queryset(self.get_queryset())
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
             serializer = self.serializer_class(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({"Message": "Error"}, status=status.HTTP_404_NOT_FOUND)
-
-
 
 
 class FeedsDetails(APIView):
