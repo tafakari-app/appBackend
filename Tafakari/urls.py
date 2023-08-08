@@ -33,6 +33,7 @@ urlpatterns = [
     path('users/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('journals/', include('journal.urls')),
+    path('selfhelp/', include('selfHelp.urls')),
     path('admin/', admin.site.urls),
 ]
 
