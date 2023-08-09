@@ -250,6 +250,7 @@ SWAGGER_SETTINGS = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8000",
-    'https://appbackend-production-0c51.up.railway.app'
+    'https://appbackend-production-0c51.up.railway.app',
+    "http://appbackend-production-0c51.up.railway.app",
 
 ]
