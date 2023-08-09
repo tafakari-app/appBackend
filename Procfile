@@ -1,1 +1,1 @@
-web: gunicorn Tafakari.wsgi:application --log-file - --log-level debug
+web: gunicorn Tafakari.wsgi
