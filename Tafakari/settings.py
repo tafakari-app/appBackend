@@ -2,6 +2,10 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 import os
+"""
+    decouple library provides a convenient way to handle 
+    configuration settings in your Python application. 
+"""
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -239,7 +243,11 @@ DJOSER = {
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     }
 }
-
+"""
+    Swagger is a set of open-source tools and specifications that enable developers
+    to design, build, document, and consume RESTful web services. 
+    It provides a standardized way to describe, document, and interact with APIs.
+"""
 # having the swagger docs with a password
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {

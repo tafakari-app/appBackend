@@ -6,7 +6,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+" required imports "
 
+"Schema view"
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
@@ -20,6 +22,7 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+"Url patterns"
 urlpatterns = [
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0),
          name='schema-json'),
