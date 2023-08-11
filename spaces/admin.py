@@ -3,9 +3,9 @@ from .models import Post, PostComment
 # Register your models here.
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'emotions',"emotion_predications", 'created_at', 'updated_at')
-    list_filter = ('author', 'emotions', 'emotion_predications', 'created_at', 'updated_at')
-    search_fields = ('title', 'author', 'emotions', 'created_at', 'updated_at')
+    list_display = ( 'author', 'created_at', 'updated_at')
+    list_filter = ('author', 'created_at', 'updated_at')
+    search_fields = ( 'author', 'emotions', 'created_at', 'updated_at')
     readonly_fields = ('created_at', 'updated_at')
     ordering = ('-created_at',)
 

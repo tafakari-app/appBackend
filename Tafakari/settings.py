@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-qhy6y5xi@2y@)hlie4hw**1lvqn45q^+*+26df9ks0tc3yq*$j
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = ['appbackend-production-0c51.up.railway.app']
+ALLOWED_HOSTS = ['172.20.10.6', ]
 
 
 # Application definition
@@ -249,6 +249,8 @@ SWAGGER_SETTINGS = {
 
 
 CORS_ALLOWED_ORIGINS = [
-    "*"
-
+    "http://172.20.10.6:8000",
+    "http://localhost:8000",
+    "http://172.20.10.6:3000",
+    "http://172.20.10.6:8081"
 ]

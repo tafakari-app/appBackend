@@ -20,7 +20,6 @@ from .Predictions import predictEmtions
 from rest_framework import generics
 
 
-
 class CustomPageNumberPagination(PageNumberPagination):
     page_size = 10  # Adjust the page size as needed
     page_size_query_param = 'page_size'
@@ -33,7 +32,8 @@ class Feeds(generics.ListAPIView):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PostFilter
     permission_classes = (permissions.IsAuthenticated,)
-    pagination_class = CustomPageNumberPagination  # Use your custom pagination class if needed
+    # Use your custom pagination class if needed
+    pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):
         return Post.objects.all()
@@ -64,33 +64,25 @@ class FeedsDetails(APIView):
         except:
             return Response({"Message": "Error"}, status=status.HTTP_404_NOT_FOUND)
 
+
 class CreatePost(APIView):
     parser_classes = (MultiPartParser,)
     serializer_class = CreateNewPostSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
-            data = json.loads(request.body)
-            # print(data)
-            try:
-                text_data = data.get('description')
-                predi = predictEmtions(text_data)
-                title = data.get('title')
-                emotion = predi[0]['predictions'][0]['prediction']
-                emotions_strength = predi[0]['predictions'][0]['probability'] * 100
-                description = data.get('description')
-                post  = Post.objects.create(
-                    author=request.user,
-                    title=title,
-                    description=description,
-                    emotions=emotion,
-                    emotion_predications=emotions_strength
-                )
-                post.save()
-                return Response({"Message":"a post was created"}, status=status.HTTP_201_CREATED)
-            except:
-                return Response({"Message":"Error created"}, status=status.HTTP_400_BAD_REQUEST)
+        data = json.loads(request.body)
+        try:
+            serializer = self.serializer_class(data=data)
+            if serializer.is_valid():
+                post = serializer.save(author=request.user)
+                post_serializer = PostSerializer(instance=post)
 
+                return Response(post_serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"Message": "Sorry we have an Error! "}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({"Error": "Sorry we can't post "}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LikePost(APIView):
@@ -98,15 +90,16 @@ class LikePost(APIView):
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-
     def post(self, request, post_id):
-        post = get_object_or_404(Post, ID=post_id)
         try:
+            post = Post.objects.get(ID=post_id)
             if request.user in post.likes.all():
                 post.likes.remove(request.user)
-                return Response({"Message":"a post was unliked"}, status=status.HTTP_200_OK)
             else:
                 post.likes.add(request.user)
-                return Response({"Message":"a post was liked"}, status=status.HTTP_200_OK)
+            serializer = PostSerializer(instance=post)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Post.DoesNotExist:
+            return Response({"Message": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
         except:
-            return Response({"Error":"a post was ok"}, status=status.HTTP_200_OK)
+            return Response({"Error": "Error liking/disliking post"}, status=status.HTTP_400_BAD_REQUEST)
