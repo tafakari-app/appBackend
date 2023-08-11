@@ -253,5 +253,5 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://172.20.10.6:3000",
     "http://172.20.10.6:8081",
-    "https://tafakari-ee6f52a2dd51.herokuapp.com/"
+    "https://tafakari-ee6f52a2dd51.herokuapp.com"
 ]
