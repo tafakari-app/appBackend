@@ -21,4 +21,4 @@ class PostSerializer(serializers.ModelSerializer):
 class CreateNewPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ("title", "description")
+        fields = ("description",)

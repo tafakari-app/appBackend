@@ -10,9 +10,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qhy6y5xi@2y@)hlie4hw**1lvqn45q^+*+26df9ks0tc3yq*$j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['127.0.0.1',]
+=======
+
+ALLOWED_HOSTS = ['172.20.10.6','tafakari-ee6f52a2dd51.herokuapp.com',]
+>>>>>>> 4e93077b084f1ce6298cc5712eddbe91675f5a7e
 
 
 # Application definition
@@ -32,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'drf_yasg',
     'django_filters',
+    'corsheaders',
 
     # local apps
     'users.apps.UsersConfig',
@@ -49,7 +55,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -61,7 +68,7 @@ ROOT_URLCONF = 'Tafakari.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS':  [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,12 +141,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-MEDIA_URL = "media/"
-STATICFILES_DIRS = [BASE_DIR / "static" ]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_ROOT = BASE_DIR / "media"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = (
+    BASE_DIR / 'static',
+)
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -231,3 +250,12 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://172.20.10.6:8000",
+    "http://localhost:8000",
+    "http://172.20.10.6:3000",
+    "http://172.20.10.6:8081",
+    "https://tafakari-ee6f52a2dd51.herokuapp.com"
+]
