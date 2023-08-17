@@ -82,6 +82,10 @@ class getJournalDetials(APIView):
 
     def delete(self, request, pk, *args, **kwargs):
         try:
+        # Retrieve the Journal object with the given ID and delete it
+        # Journal.objects.get(ID=pk).delete()
+        # Return a success response indicating that the journal was deleted successfully
+        # return Response({"Message": "Journal Deleted Successfully"}, status=status.HTTP_201_CREATED)
             Journal.objects.get(ID=pk).delete()
             return Response({"Message":"Journal Deleted Successfully"}, status=status.HTTP_201_CREATED)
         except:
