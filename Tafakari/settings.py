@@ -2,9 +2,11 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 import os
+import dj_database_url
+
 """
-    decouple library provides a convenient way to handle 
-    configuration settings in your Python application. 
+    decouple library provides a convenient way to handle
+    configuration settings in your Python application.
 """
 
 
@@ -95,17 +97,8 @@ if DEBUG:
     }
     }
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'URL': config('DATABASE_URL'),
-            'NAME': config('PGDATABASE'),
-            'USER': config('PGUSER'),
-            'PASSWORD': config('PGPASSWORD'),
-            'HOST': config('PGHOST'),
-            'PORT': config('PGPORT'),
-        }
-    }
+    db_from_env = dj_database_url.config(conn_max_age=600)
+    DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -242,7 +235,7 @@ DJOSER = {
 }
 """
     Swagger is a set of open-source tools and specifications that enable developers
-    to design, build, document, and consume RESTful web services. 
+    to design, build, document, and consume RESTful web services.
     It provides a standardized way to describe, document, and interact with APIs.
 """
 # having the swagger docs with a password
