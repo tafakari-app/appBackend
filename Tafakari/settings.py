@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-qhy6y5xi@2y@)hlie4hw**1lvqn45q^+*+26df9ks0tc3yq*$j
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = ['172.20.10.6','tafakari-ee6f52a2dd51.herokuapp.com',]
+ALLOWED_HOSTS = ['172.20.10.6','tafakari-7d6ea5b42c18.herokuapp.com',]
 
 
 # Application definition
